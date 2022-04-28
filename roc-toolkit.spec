@@ -14,6 +14,7 @@ Group:		Libraries
 Source0:	https://github.com/roc-streaming/roc-toolkit/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	6ce4875947fc8ca0598c9ccd4f6b05bb
 Patch0:		%{name}-scons4.patch
+Patch1:		aarch64.patch
 URL:		https://github.com/roc-streaming/roc-toolkit
 BuildRequires:	alsa-lib-devel
 BuildRequires:	doxygen
@@ -90,6 +91,7 @@ Dokumentacja API biblioteki ROC.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 # docs build seems racy, use -j1

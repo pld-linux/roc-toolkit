@@ -1,0 +1,11 @@
+--- roc-toolkit-0.1.5/SConstruct.orig	2022-04-28 12:06:30.088777335 +0200
++++ roc-toolkit-0.1.5/SConstruct	2022-04-28 12:11:51.576780853 +0200
+@@ -1051,7 +1051,7 @@
+ 
+ if compiler in ['gcc', 'clang']:
+     env.Append(CXXFLAGS=[
+-        '-std=c++98',
++        '-std=c++11',
+         '-fno-exceptions',
+     ])
+ 
