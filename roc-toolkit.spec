@@ -129,9 +129,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/roc-recv
 %attr(755,root,root) %{_bindir}/roc-send
 %attr(755,root,root) %{_libdir}/libroc.so.0.1
+%if %{with apidocs}
 %{_mandir}/man1/roc-conv.1*
 %{_mandir}/man1/roc-recv.1*
 %{_mandir}/man1/roc-send.1*
+%endif
 
 %files devel
 %defattr(644,root,root,755)
