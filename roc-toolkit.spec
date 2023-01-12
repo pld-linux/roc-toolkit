@@ -68,6 +68,12 @@ Summary:	Header files for ROC library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki ROC
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	libunwind-devel
+Requires:	libuv-devel
+Requires:	openfec-devel
+Requires:	pulseaudio-devel
+Requires:	sox-devel >= 14.4.0
+Requires:	speexdsp-devel
 
 %description devel
 Header files for ROC library.
