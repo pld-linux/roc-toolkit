@@ -96,7 +96,8 @@ Dokumentacja API biblioteki ROC.
 	STRIP=: \
 	%{?with_apidocs:--enable-doxygen} \
 	%{?with_apidocs:--enable-sphinx} \
-	--with-openfec-includes=/usr/include/openfec
+	--with-openfec-includes=/usr/include/openfec \
+	--libdir=%{_libdir}
 
 # TODO: --enable-pulseaudio-modules
 
