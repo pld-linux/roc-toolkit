@@ -6,31 +6,30 @@
 Summary:	ROC: real-time audio streaming over the network
 Summary(pl.UTF-8):	ROC: strumienie audio po sieci w czasie rzeczywistym
 Name:		roc-toolkit
-Version:	0.1.5
+Version:	0.2.1
 Release:	1
 License:	MPL v2.0
 Group:		Libraries
 #Source0Download: https://github.com/roc-streaming/roc-toolkit/releases
 Source0:	https://github.com/roc-streaming/roc-toolkit/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	6ce4875947fc8ca0598c9ccd4f6b05bb
-Patch0:		%{name}-scons4.patch
-Patch1:		aarch64.patch
+# Source0-md5:	645ef0eaf17e7fdad360730e498014e5
 URL:		https://github.com/roc-streaming/roc-toolkit
 BuildRequires:	alsa-lib-devel
-BuildRequires:	doxygen
+%{?with_apidocs:BuildRequires:	doxygen}
 BuildRequires:	gengetopt
 BuildRequires:	libunwind-devel
 BuildRequires:	libuv-devel
 BuildRequires:	openfec-devel
 BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
-BuildRequires:	python3-breathe
+%{?with_apidocs:BuildRequires:	python3-breathe}
 BuildRequires:	ragel
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.385
 BuildRequires:	scons
 BuildRequires:	sox-devel >= 14.4.0
-BuildRequires:	sphinx-pdg
+BuildRequires:	speexdsp-devel
+%{?with_apidocs:BuildRequires:	sphinx-pdg}
 Requires:	sox >= 14.4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -90,15 +89,13 @@ Dokumentacja API biblioteki ROC.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 # docs build seems racy, use -j1
 %scons -j1 \
 	STRIP=: \
-	%{!?with_apidocs:--disable-doc} \
-	--disable-tests \
+	%{?with_apidocs:--enable-doxygen} \
+	%{?with_apidocs:--enable-sphinx} \
 	--with-openfec-includes=/usr/include/openfec
 
 # TODO: --enable-pulseaudio-modules
@@ -107,15 +104,16 @@ Dokumentacja API biblioteki ROC.
 rm -rf $RPM_BUILD_ROOT
 
 %scons -j1 \
+	PKG_CONFIG_PATH=$RPM_BUILD_ROOT%{_pkgconfigdir} \
 	STRIP=: \
-	%{!?with_apidocs:--disable-doc} \
-	--disable-tests \
+	%{?with_apidocs:--enable-doxygen} \
+	%{?with_apidocs:--enable-sphinx} \
 	--with-openfec-includes=/usr/include/openfec \
 	--prefix=$RPM_BUILD_ROOT%{_prefix} \
 	--libdir=$RPM_BUILD_ROOT%{_libdir} \
 	install
 
-# useless symlink, soname is libroc.so.0.1
+# useless symlink, soname is libroc.so.0.2
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libroc.so.0
 
 %clean
@@ -130,7 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/roc-conv
 %attr(755,root,root) %{_bindir}/roc-recv
 %attr(755,root,root) %{_bindir}/roc-send
-%attr(755,root,root) %{_libdir}/libroc.so.0.1
+%attr(755,root,root) %{_libdir}/libroc.so.0.2
 %if %{with apidocs}
 %{_mandir}/man1/roc-conv.1*
 %{_mandir}/man1/roc-recv.1*
@@ -141,9 +139,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libroc.so
 %{_includedir}/roc
+%{_pkgconfigdir}/roc.pc
 
 %if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
-%doc html/docs/{_images,_static,about_project,api,internals,manuals,portability,running,*.html,*.js}
+%doc docs/html/docs/{_images,_static,about_project,api,internals,manuals,portability,*.html,*.js}
 %endif
