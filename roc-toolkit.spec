@@ -6,13 +6,13 @@
 Summary:	ROC: real-time audio streaming over the network
 Summary(pl.UTF-8):	ROC: strumienie audio po sieci w czasie rzeczywistym
 Name:		roc-toolkit
-Version:	0.2.1
+Version:	0.3.0
 Release:	1
 License:	MPL v2.0
 Group:		Libraries
 #Source0Download: https://github.com/roc-streaming/roc-toolkit/releases
 Source0:	https://github.com/roc-streaming/roc-toolkit/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	645ef0eaf17e7fdad360730e498014e5
+# Source0-md5:	9c4094bb78e1d402c5fbda41afc6572a
 URL:		https://github.com/roc-streaming/roc-toolkit
 BuildRequires:	alsa-lib-devel
 %{?with_apidocs:BuildRequires:	doxygen}
@@ -120,7 +120,7 @@ rm -rf $RPM_BUILD_ROOT
 	--libdir=$RPM_BUILD_ROOT%{_libdir} \
 	install
 
-# useless symlink, soname is libroc.so.0.2
+# useless symlink, soname is libroc.so.0.3
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libroc.so.0
 
 %clean
@@ -132,12 +132,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.md
-%attr(755,root,root) %{_bindir}/roc-conv
+%attr(755,root,root) %{_bindir}/roc-copy
 %attr(755,root,root) %{_bindir}/roc-recv
 %attr(755,root,root) %{_bindir}/roc-send
-%attr(755,root,root) %{_libdir}/libroc.so.0.2
+%attr(755,root,root) %{_libdir}/libroc.so.0.3
 %if %{with apidocs}
-%{_mandir}/man1/roc-conv.1*
+%{_mandir}/man1/roc-copy.1*
 %{_mandir}/man1/roc-recv.1*
 %{_mandir}/man1/roc-send.1*
 %endif
