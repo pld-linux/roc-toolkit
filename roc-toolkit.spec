@@ -23,6 +23,7 @@ BuildRequires:	openfec-devel
 BuildRequires:	pkgconfig
 BuildRequires:	pulseaudio-devel
 %{?with_apidocs:BuildRequires:	python3-breathe}
+%{?with_apidocs:BuildRequires:	python3-sphinxemoji}
 BuildRequires:	ragel
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.385
